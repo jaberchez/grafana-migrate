@@ -1,0 +1,61 @@
+# Example file configuration for migrating two Grafanas
+
+global:
+  # Notice: The sensitive data (adminAuthSrc, adminAuthDest, apiKeySrc and apiKeyDest) 
+  #         might be configured as environment variable and removed from this file
+  #
+  # adminAuthSrc as GLOBAl_ADMIN_AUTH_SRC
+  # adminAuthSrc as GLOBAl_ADMIN_AUTH_DEST
+  # apiKeySrc    as GLOBAl_API_KEY_SRC
+  # apiKeyDest   as GLOBAl_API_KEY_DEST
+
+  # Credentials for Grafana admin user. Only required if we migrate users
+  # Format: admin:password in base64
+  adminAuthSrc: YWRtaW46YWRtaW4=
+  adminAuthDest: YWRtaW46YWRtaW4=
+
+  # API Keys (source and destination)
+  apiKeySrc: eyJrIjoiT2UwNUJOdU90Y1daWkRTbzNDaUpZOERKNzVnbFZKNWsiLCJuIjoiZCIsImlkIjoxfQ==
+  apiKeyDest: eyJrIjoiNlVoM3lmSDd2V1RBeFhFR0xhc2xoQU93cTNhS09aRXkiLCJuIjoiZCIsImlkIjoxfQ==
+
+  # URLs of Grafana source and destination. Only HTTP allowed
+  urlGrafanaSrc: http://10.10.10.10:3000
+  urlGrafanaDest: http://11.11.11.11:3000
+
+migrate:
+  # List of folders. You can set a list of names or "all". If
+  # you set "all" the rest is ignored
+  folders:
+    - 'all'
+    #- "Folder_1"
+  
+  # List of dashboards to migrate. You can configure name "all" or
+  # a list of them. If you use a list of them you must also provide
+  # the name of the folder which dashboard belongs to
+  dashboards:
+    # If we set "all", we don't need to provide the folder. Every
+    # dashboard will be stored in its own folder
+    # Notice: - If you set "all", the rest of the list is ignored
+    #         - In case the dashboard already exists in destination, 
+    #           you can choose if you want to overwrite it (default false)
+    - name: all
+      overwrite: false
+
+    # We need to provide the folder which dashboard belongs because
+    # you can have multiple dashboards with the same name in diferents
+    # folders, so we need to know the right dashboard you want to migrate
+    #- name: Test
+    #  folder: "Folder_1"
+    #  overwrite: false
+
+  # List of datasources to migrate. You can configure name "all" or
+  # a list of them. If you set "all" the rest is ignored
+  datasources:
+    - all
+    #- "Prometheus-Kubernetes"
+  
+  # For users it is the same explanation as in the folders
+  # Notice: The list is the login field
+  users: 
+    - 'all'
+    #- "adm-test"
