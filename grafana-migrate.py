@@ -236,11 +236,14 @@ def migrate_dashboards():
       create_dashboard     = False
       candidate_to_migrate = False
       overwrite            = False
-      folderId             = 0
+      folderId             = 0  # Default folderId for "General" folder
 
       # Check if this dashboard is candidate to migrate
       # Notice: If we set "all" ignore the rest of the list (if there is something)
       for dash in conf['migrate']['dashboards']:
+         if not 'folderTitle' in dashboard_src:
+            dashboard_src['folderTitle'] = 'General'
+
          if dash['name'] == 'all' or (dashboard_src['title']       == dash['name'] and \
                                       dashboard_src['folderTitle'] == dash['folder']):
             candidate_to_migrate = True
