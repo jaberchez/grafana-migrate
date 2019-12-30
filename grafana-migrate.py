@@ -131,6 +131,10 @@ def migrate_folders():
 
       # Check if this folder is candidate to migrate
       for f in conf['migrate']['folders']:
+         if f == 'General':
+            # We cannot migrate "General" folder
+            break
+
          if f == 'all' or folder_src['title'] == f:
             candidate_to_migrate = True
             break
@@ -265,6 +269,9 @@ def migrate_dashboards():
       # Notice: We check if the dashboard exists and belongs to the
       #         same folder
       for dashboard_dest in dashboards_dest:
+         if not 'folderTitle' in dashboard_dest:
+            dashboard_dest['folderTitle'] = 'General'
+
          if (dashboard_src['title']       == dashboard_dest['title']) and \
             (dashboard_src['folderTitle'] == dashboard_dest['folderTitle']):
             dashboard_exists  = True
